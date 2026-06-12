@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ai-frontend
+
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+
+
+  selector:
+    matchLabels:
+      app: ai-frontend
+
+  template:
+    metadata:
+      labels:
+        app: ai-frontend
+
+    spec:
+      containers:
+      - name: ai-frontend
+        image: asthagupta0309/ai-k8s-frontend:latest
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 5173
