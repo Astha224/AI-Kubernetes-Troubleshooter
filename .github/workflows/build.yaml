@@ -1,4 +1,4 @@
-name: Build Project
+name: Build and Scan
 
 on:
   push:
@@ -17,6 +17,13 @@ jobs:
         run: |
           docker build -t ai-backend ./backend
 
+      - name: Scan Backend Image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ai-backend
+          format: table
+          exit-code: 0
+
   build-frontend:
     runs-on: ubuntu-latest
 
@@ -27,3 +34,10 @@ jobs:
       - name: Build Frontend Docker Image
         run: |
           docker build -t ai-frontend ./frontend
+
+      - name: Scan Frontend Image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ai-frontend
+          format: table
+          exit-code: 0
