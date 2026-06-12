@@ -1,4 +1,4 @@
-name: Build and Scan
+name: Build and Push
 
 on:
   push:
@@ -6,34 +6,36 @@ on:
       - main
 
 jobs:
-  build-backend:
+  backend:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Build Backend Docker Image
-        run: docker build -t ai-backend ./backend
-
-      - name: Run Trivy Scan
-        uses: aquasecurity/trivy-action@master
+      - uses: docker/login-action@v3
         with:
-          image-ref: ai-backend
-          format: table
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-  build-frontend:
+      - run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-k8s-backend:latest ./backend
+
+      - run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/ai-k8s-backend:latest
+
+  frontend:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Build Frontend Docker Image
-        run: docker build -t ai-frontend ./frontend
-
-      - name: Run Trivy Scan
-        uses: aquasecurity/trivy-action@master
+      - uses: docker/login-action@v3
         with:
-          image-ref: ai-frontend
-          format: table
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-k8s-frontend:latest ./frontend
+
+      - run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/ai-k8s-frontend:latest
