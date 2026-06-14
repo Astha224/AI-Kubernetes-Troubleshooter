@@ -32,3 +32,4 @@ jobs:
         context: ./frontend
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-assistant-frontend:latest
+        
