@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ai-backend-rules
+  namespace: monitoring
+  labels:
+    release: monitoring
+
+spec:
+  groups:
+  - name: ai-backend
+
+    rules:
+
+    - alert: AIBackendDown
+
+      expr: absent(up{job="ai-backend-service"})
+
+      for: 1m
+
+      labels:
+        severity: critical
+
+      annotations:
+        summary: "AI Backend Down"
+
+        description: "AI Backend has been unreachable for 1 minute."

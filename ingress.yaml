@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-assistant-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - ai.local
+    secretName: ai-local-tls
+  rules:
+  - host: ai.local
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: ai-frontend-service
+            port:
+              number: 80
+
+      - path: /analyze
+        pathType: Prefix
+
+        backend:
+          service:
+            name: ai-backend-service
+            port:
+              number: 8000
+
+      - path: /metrics
+        pathType: Prefix
+
+        backend:
+          service:
+            name: ai-backend-service
+            port:
+              number: 8000
