@@ -21,8 +21,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        kubectl.kubernetes.io/restartedAt: "2026-06-15T01:54:09+05:30"
       labels:
         app: ai-backend
     spec:
