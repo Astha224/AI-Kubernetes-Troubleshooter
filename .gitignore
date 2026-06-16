@@ -1,22 +1,25 @@
-# Python
-
-venv/
-**pycache**/
+# dependencies
+node_modules/
+__pycache__/
 *.pyc
 
-# Node
-
-node_modules/
-dist/
-
-# Mac
-
-.DS_Store
-
-# Environment
-
+# env/secrets
 .env
+*.env
+*.key
+*.crt
+*.pem
+kubeconfig*
 
-# Logs
+# terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform.lock.hcl
 
-*.log
+# local/generated
+.DS_Store
+iam_policy.json
